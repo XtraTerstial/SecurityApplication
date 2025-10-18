@@ -1,0 +1,22 @@
+package com.xtraCoder.SecurityApp.SecurityApplication.Service;
+
+import com.xtraCoder.SecurityApp.SecurityApplication.exception.ResourseNotFoundException;
+import com.xtraCoder.SecurityApp.SecurityApplication.repository.UserRepo;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class UserService implements UserDetailsService {
+
+    private final UserRepo userRepo;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepo.findByEmail(username)
+                .orElseThrow(()-> new ResourseNotFoundException("User with email "+ username +" doesn't exist"));
+    }
+}
