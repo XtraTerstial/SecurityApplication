@@ -1,0 +1,2 @@
+#JWT config(you can make key as long as you want)
+jwt.secretKey = jedbncgfyagXIWJoseydUI
