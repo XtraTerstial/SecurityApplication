@@ -21,6 +21,7 @@ public class JwtService {
     private String jwtSecretKey;
 
     private SecretKey getSecretKey(){
+        //
         return Keys.hmacShaKeyFor(jwtSecretKey.getBytes(StandardCharsets.UTF_8));
     }
 
@@ -30,7 +31,7 @@ public class JwtService {
                 .claim("emial", user.getEmail())
                 .claim("roles", Set.of("ADMIN", "USER"))
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 1000*60))
+                .expiration(new Date(System.currentTimeMillis() + 1000*60)) // 1000 millisecond * 60 = 60 seconds
                 .signWith(getSecretKey())
                 .compact();
     }

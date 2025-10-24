@@ -28,31 +28,32 @@ public class WebSecurityConfig {
                 // the bouncer at a club which rules to follow.
                 .authorizeHttpRequests(auth -> auth
                         //Below
-                        .requestMatchers("/posts/**").permitAll()
+                        .requestMatchers("/posts","/error","/auth/**").permitAll()
+                        .requestMatchers("/posts/**").hasAnyRole("ADMIN")
                         .anyRequest().authenticated())
                 .csrf(csrfConfig -> csrfConfig.disable())
                 .sessionManagement(sessionConfig -> sessionConfig
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .formLogin(Customizer.withDefaults());
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+//                .formLogin(Customizer.withDefaults());
 
         return httpSecurity.build();
     }
 
-    @Bean
-    UserDetailsService myInMemoryUserDetailsService(){
-        UserDetails normalUser = User
-                .withUsername("devbrat")
-                .password(passwordEncoder().encode("devbrat123"))
-                .roles("USER")
-                .build();
-        UserDetails adminUser = User
-                .withUsername("Bob the Builder")
-                .password(passwordEncoder().encode("Bob9876"))
-                .roles("ADMIN")
-                .build();
-
-        return new InMemoryUserDetailsManager(normalUser, adminUser);
-    }
+//    @Bean
+//    UserDetailsService myInMemoryUserDetailsService(){
+//        UserDetails normalUser = User
+//                .withUsername("devbrat")
+//                .password(passwordEncoder().encode("devbrat123"))
+//                .roles("USER")
+//                .build();
+//        UserDetails adminUser = User
+//                .withUsername("Bob the Builder")
+//                .password(passwordEncoder().encode("Bob9876"))
+//                .roles("ADMIN")
+//                .build();
+//
+//        return new InMemoryUserDetailsManager(normalUser, adminUser);
+//    }
 
     @Bean
     PasswordEncoder passwordEncoder() {
