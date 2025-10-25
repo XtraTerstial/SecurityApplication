@@ -28,6 +28,11 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(()-> new ResourseNotFoundException("User with email "+ username +" doesn't exist"));
     }
 
+    public User getUserById(Long userId){
+        return userRepo.findById(userId)
+                .orElseThrow(() -> new ResourseNotFoundException("User with id "+ userId +" doesn't exist"));
+    }
+
     public UserDto signUp(SignUpDto signUpDto) {
         Optional<User> user = userRepo.findByEmail(signUpDto.getEmail());
         if(user.isPresent()){
@@ -38,4 +43,5 @@ public class UserService implements UserDetailsService {
         User savedUser = userRepo.save(toBeCreatedUser);
         return modelMapper.map(savedUser, UserDto.class);
     }
+
 }
