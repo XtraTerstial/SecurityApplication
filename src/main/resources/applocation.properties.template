@@ -1,2 +1,21 @@
+spring.application.name=SecurityApplication
+
+spring.datasource.url=jdbc:mysql://localhost:3306/security_db?useSSL=false
+spring.datasource.username = yourUserName
+spring.datasource.password = yourPassword
+
+#SQL configuration
+spring.jpa.hibernate.ddl-auto = update
+spring.jpa.show-sql = true
+spring.jpa.properties.hibernate.format_sql = true
+
+#Security configurations
+#spring.security.user.name = yourName
+#spring.security.user.password = yourPassword
+
 #JWT config(you can make key as long as you want)
-jwt.secretKey = jedbncgfyagXIWJoseydUI
+#Must be at least 32 characters long for HS256 algorithm
+jwt.secretKey = your-key1234567891011121314151617181920@#%$@!#T
+
+#Environment specific properties
+deploy.env = development
