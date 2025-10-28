@@ -44,7 +44,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             String token = requestTokenHeader.split("Bearer")[1];
 
             Long userId = jwtService.getUserIdFromToken(token);
-            if (userId != null) {
+            if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 // Here you can set the user details in the SecurityContext if needed
                 // For example, you can load the user from the database using the userId
                 // and set it in the SecurityContextHolder

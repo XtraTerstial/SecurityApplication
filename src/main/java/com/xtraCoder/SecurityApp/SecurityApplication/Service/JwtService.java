@@ -26,13 +26,22 @@ public class JwtService {
     }
 
     //Below method is for generating JWT token
-    public String generateToken(User user){
+    public String generateAccessToken(User user){
         return Jwts.builder()
                 .subject(user.getId().toString())
                 .claim("emial", user.getEmail())
                 .claim("roles", Set.of("ADMIN", "USER"))
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 1000*60)) // 1000 millisecond * 60 = 60 seconds
+                .expiration(new Date(System.currentTimeMillis() + 1000*60*10)) // 1000 millisecond * 60 = 60 seconds * 10 = 10 minutes
+                .signWith(getSecretKey())
+                .compact();
+    }
+    public String generateRefreshToken(User user){
+        return Jwts.builder()
+                .subject(user.getId().toString())
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + 1000L *60*60*24*30*6))
+                // 1000 millisecond * 60 = 60 seconds * 60 = 1 hour * 24 = 1 day * 30 = 1 month * 6 = 6 months
                 .signWith(getSecretKey())
                 .compact();
     }
