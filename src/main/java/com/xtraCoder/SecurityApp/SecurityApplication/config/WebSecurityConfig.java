@@ -22,6 +22,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+//Security filter chain is a series of filters that
+// process incoming requests to your application.
+//Here, we are configuring how security is handled in the application.
 public class WebSecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
@@ -29,7 +32,7 @@ public class WebSecurityConfig {
     // It sets up a "security filter chain" that
     // intercepts incoming requests and decides who is allowed to access what.
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity)throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity)throws Exception{
         httpSecurity
                 //authorizeHttpRequests(...): This starts the process
                 // of defining access rules. It's like telling
