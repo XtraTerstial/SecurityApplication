@@ -15,5 +15,14 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
 
-
+    //Below method is for login
+    public String login(LoginDto loginDto) {
+        //Here first we are authenticating the user using AuthenticationManager
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword())
+        );
+        //Here we are generating JWT token using JwtService
+        User user = (User) authentication.getPrincipal();
+        return jwtService.generateToken(user);
+    }
 }
