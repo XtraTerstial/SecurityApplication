@@ -12,6 +12,8 @@ spring.jpa.properties.hibernate.format_sql = true
 #Security configurations
 #spring.security.user.name = yourName
 #spring.security.user.password = yourPassword
+springsecurity.oauth2.client.registration.myclient.client-id=myclientid
+springsecurity.oauth2.client.registration.myclient.client-secret=myclientsecret
 
 #JWT config(you can make key as long as you want)
 #Must be at least 32 characters long for HS256 algorithm
