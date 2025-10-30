@@ -21,6 +21,7 @@ import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
+//In this class we are creating a filter to validate the JWT token from the request header
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;

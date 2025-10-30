@@ -1,6 +1,7 @@
 package com.xtraCoder.SecurityApp.SecurityApplication.config;
 
 import com.xtraCoder.SecurityApp.SecurityApplication.filter.JwtAuthFilter;
+import com.xtraCoder.SecurityApp.SecurityApplication.handlers.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -28,6 +30,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
     // It sets up a "security filter chain" that
     // intercepts incoming requests and decides who is allowed to access what.
@@ -38,10 +41,10 @@ public class WebSecurityConfig {
                 // of defining access rules. It's like telling
                 // the bouncer at a club which rules to follow.
                 .authorizeHttpRequests(auth -> auth
-                        //Below
-                        .requestMatchers("/posts","/error","/auth/**").permitAll()
+                        .requestMatchers("/posts","/error","/auth/**","/home.html").permitAll()
 //                        .requestMatchers("/posts/**").authenticated()
-                        .anyRequest().authenticated())
+                        .anyRequest().authenticated()
+                )
                 .csrf(csrfConfig -> csrfConfig.disable())
                 .sessionManagement(sessionConfig -> sessionConfig
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -49,9 +52,16 @@ public class WebSecurityConfig {
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .oauth2Login(oauth2Config -> oauth2Config
                         .failureUrl("/login?error=true")
-                        .successHandler()
+                        .successHandler(oAuth2SuccessHandler)
                 );
-//                .formLogin(Customizer.withDefaults());
+
+//                .logout(logout -> logout
+//                        .logoutUrl("/logout")// The URL to call for logout
+//                        .invalidateHttpSession(true)// This is what "deletes" the session on the server side
+//                        .deleteCookies("JSESSIONID")// clears the session cookie
+//                        .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())// Sends 200 ok
+//                )
+
 
         return httpSecurity.build();
     }
