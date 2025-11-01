@@ -30,7 +30,7 @@ public class JwtService {
         return Jwts.builder()
                 .subject(user.getId().toString())
                 .claim("emial", user.getEmail())
-                .claim("roles", Set.of("ADMIN", "USER"))
+                .claim("roles", user.getRoles().toString())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 1000*60*10)) // 1000 millisecond * 60 = 60 seconds * 10 = 10 minutes
                 .signWith(getSecretKey())
